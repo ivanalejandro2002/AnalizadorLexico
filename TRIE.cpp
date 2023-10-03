@@ -1,6 +1,8 @@
-
+#ifndef TRIE_Cabecera
+#define TRIE_Cabecera
 #include <iostream>
 #include <vector>
+
 using namespace std;
 struct nodo_TRIE;
 struct lista{
@@ -9,11 +11,16 @@ struct lista{
     lista(char v):valor(v),siguiente(nullptr){};
 };
 struct nodo_TRIE{
+    int trabado;
     int token;
     lista *elementos;
     lista *ultimo;
     vector<nodo_TRIE*> hijos;
-    nodo_TRIE():token(0),elementos(new lista(1)),ultimo(elementos),hijos(vector<nodo_TRIE*>(256,nullptr)){};
+    nodo_TRIE():token(0),elementos(new lista(1)),ultimo(elementos),trabado(0),hijos(vector<nodo_TRIE*>(256,nullptr)){};
+    int asigna_Token(int valor_Token){
+        if(this -> token == 0)this -> token = valor_Token;
+        return this -> token;
+    }
     void ingresa_token(string &cadena, int pos, int &cantidadTokens){
         if(pos==cadena.size()){
             if(token){
@@ -23,12 +30,7 @@ struct nodo_TRIE{
             token = cantidadTokens;
             return;
         }
-        if(hijos[(int)cadena[pos]]==nullptr){
-            hijos[(int)cadena[pos]]=new nodo_TRIE();
-            ultimo->siguiente=new lista(cadena[pos]);
-            ultimo = ultimo->siguiente;
-        }
-        this->hijos[(int)cadena[pos]]->ingresa_token(cadena,pos+1,cantidadTokens);
+        pasito(cadena[pos])->ingresa_token(cadena,pos+1,cantidadTokens);
     }
     void dfs(vector<char> &construyo){
         if(token){
@@ -53,5 +55,16 @@ struct nodo_TRIE{
         for(string lectura: tokens)
             this->ingresa_token(lectura,0,++cantidadTokens);
     }
+    nodo_TRIE *pasito(char letra){
+        if(hijos[(int)letra]==nullptr){
+            hijos[(int)letra]=new nodo_TRIE();
+            ultimo->siguiente=new lista(letra);
+            ultimo = ultimo->siguiente;
+        }
+        return this->hijos[(int)letra];
+    }
+    nodo_TRIE *mov_seguro(char letra){
+        return this->hijos[(int)letra];
+    }
 };
-
+#endif
