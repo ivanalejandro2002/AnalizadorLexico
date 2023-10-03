@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include <vector>
 #include <cassert>
 #include "TRIE.cpp"
@@ -27,9 +28,15 @@ int main(int argc,char *argv[]){
     nodo_TRIE actual;
     arbol -> saca_Tokens();
     bool comentariote=0;
-    if(argc>0){
+    if(argc>1){
         for(int i = 1; i < argc ;i++){
             comentariote = evalua(argv[i],arbol,cantidadTokens,nombres,comentariote);
+        }
+    }else{
+        string lectura;
+        while(1){
+            getline(cin,lectura);
+            comentariote = evalua(lectura,arbol,cantidadTokens,nombres,comentariote);
         }
     }
 }

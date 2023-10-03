@@ -10,7 +10,6 @@ bool evalua(string &mens, nodo_TRIE *arbol,int cantidadTokens, vector<string> &n
             if(i<mens.size()-1 && mens[i]=='*' && mens[i+1]=='/'){
                 comentariote=0;
             }
-            i++;
             continue;
         }
         char caracter = mens[i];
@@ -32,7 +31,10 @@ bool evalua(string &mens, nodo_TRIE *arbol,int cantidadTokens, vector<string> &n
                 it = it->pasito(caracter);
                 caracter = mens[i];
             }
-            if(i>=mens.size())continue;
+            if(i>=mens.size()){
+                cout<<":: Numero de Token: "<<it->asigna_Token(cantidadTokens)<<"; Tipo de Token: "<<nombres[it->token]<<"\n";
+                continue;
+            }
             if(caracter!='.' && caracter!='E'){
                 i--;
                 cout<<":: Numero de Token: "<<it->asigna_Token(cantidadTokens)<<"; Tipo de Token: "<<nombres[it->token]<<"\n";
@@ -55,7 +57,10 @@ bool evalua(string &mens, nodo_TRIE *arbol,int cantidadTokens, vector<string> &n
                 }
             }
 
-            if(i>=mens.size())continue;
+            if(i>=mens.size()){
+                cout<<":: Numero de Token: "<<it->asigna_Token(cantidadTokens)<<"; Tipo de Token: "<<nombres[it->token]<<"\n";
+                continue;
+            }
             if(caracter!='E'){
                 i--;
                 cout<<":: Numero de Token: "<<it->asigna_Token(cantidadTokens)<<"; Tipo de Token: "<<nombres[it->token]<<"\n";
@@ -109,13 +114,14 @@ bool evalua(string &mens, nodo_TRIE *arbol,int cantidadTokens, vector<string> &n
                 if(it->trabado==1)return 0;
                 if(it->trabado==2){
                     comentariote=1;
-                    continue;
+                    break;
                 }
                 if(it->trabado==3){
                     cout<<"::Error Para un comentario grande, debes de colocar /*comentario multilinea*/\n";
                     return 0;
                 }
             }
+            if(comentariote)continue;
             cout<<paso<<"::Numero de Token "<<it->token<<"; Tipo de Token: "<<nombres[it->token]<<"\n";
             if(i<mens.size())i--;
         }
