@@ -26,7 +26,7 @@ int main(int argc,char *argv[]){
     arbol->pasito('*')->pasito('/')->trabado=3;
     cantidadTokens++;
     nodo_TRIE actual;
-    arbol -> saca_Tokens();
+    //arbol -> saca_Tokens();
     bool comentariote=0;
     if(argc>1){
         for(int i = 1; i < argc ;i++){
