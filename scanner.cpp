@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <cassert>
+#include <fstream>
 #include "TRIE.cpp"
 #include "automata.cpp"
 #include "token.cpp"
@@ -14,7 +15,7 @@ int main(int argc,char *argv[]){
     int cantidadTokens = 0;
     vector< string > reservadas = {"and","else","false","for","fun","if","null","or","print","return","true","var","while"};
     vector<string> simbolos = {"<","<=",">",">=", "!", "!=", "=", "==", "+","-","*","/","{","}","(",")",",",".",";"};
-    vector<string> nombres = {"","and","else","false","for","fun","if","null","or","print","return","true","var","while","LT","LE","GT","GE","BANG","NE","EQ","EQD","SUM","SUB","MUL","DIV","CO","CC","PO","PC","COMA","DOT","SEMICOLON"};
+    vector<string> nombres = {"","and","else","false","for","fun","if","null","or","print","return","true","var","while","LT","LE","GT","GE","BANG","NE","EQ","EQD","SUM","SUB","MUL","DIV","LLAVEABIERTA","LLAVECERRADA","PARENTESISABIERTO","PARENTESISCERRADO","COMA","PUNTO","PUNTOCOMA"};
     nombres.push_back("NUMERO");
     nombres.push_back("IDENTIFICADOR");
     nombres.push_back("CADENA");
@@ -31,12 +32,19 @@ int main(int argc,char *argv[]){
     //arbol -> saca_Tokens();
     bool existe_Error=0;
     bool comentariote = 0;
+    ifstream fin;
+    fin.open(argv[1]);
     if(argc>1){
-        for(int i = 1; i < argc ;i++){
-            existe_Error = evalua(argv[i],arbol,cantidadTokens,nombres,comentariote,registro_Tokens);
+        bool errores_general=0;
+        string lecturas;
+        while(getline(fin,lecturas)){
+            existe_Error = evalua(lecturas,arbol,cantidadTokens,nombres,comentariote,registro_Tokens);
+            errores_general|=existe_Error;
             if(existe_Error)continue;
             registro_Tokens.recorre();
         }
+        if(errores_general)cout<<"El programa termino con errores\n";
+        else cout<<"El programa termino exitosamente\n";
     }else{
         string lectura;
         while(1){
