@@ -176,7 +176,7 @@ bool evalua(string &mens, nodo_TRIE *arbol,int cantidadTokens, vector<string> &n
 bool evalua(char *mens,nodo_TRIE *arbol,int cantidadTokens, vector<string> &nombres,bool &comentariote, token &registro_Tokens){
     int i=0;
     string traductor = "";
-    while(mens[i] != '\0')traductor += mens[i++];
+    while(mens[i] != '\0' || mens[i]=='"')traductor += mens[i++];
     cout<<traductor<<"\n";
     return evalua(traductor,arbol,cantidadTokens,nombres,comentariote,registro_Tokens);
 }
